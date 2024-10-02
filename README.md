@@ -28,7 +28,6 @@ Para testar a aplicação, siga os passos abaixo:
 ## 🛠 Deploys externos
 
 - **Amazon**: [Swagger Publicado na AWS](http://load-balancer-mesafacil-180937660.us-east-1.elb.amazonaws.com/swagger-ui/index.html#/)
-- **Railway**: [Swagger Publicado na Railway](http://load-balancer-mesafacil-180937660.us-east-1.elb.amazonaws.com/swagger-ui/index.html#/)
 
 ## 🚀 Funcionalidades
 
