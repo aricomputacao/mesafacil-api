@@ -69,6 +69,8 @@ Implementamos o BDD para garantir que o comportamento do sistema esteja alinhado
 ### 🏎️ Testes de Performance
 Otimizar o desempenho é crucial em um sistema de reservas em tempo real. Usamos ferramentas de teste de carga e stress para assegurar que o sistema funcione perfeitamente mesmo em horários de pico.
 
+![2024-10-0122-49-35-ezgif com-crop](https://github.com/user-attachments/assets/28857902-fa56-45fc-aba8-f1a6109764d0)
+
 ## 🔧 Tecnologias Utilizadas
 
 - **Java** & **Spring Boot**
