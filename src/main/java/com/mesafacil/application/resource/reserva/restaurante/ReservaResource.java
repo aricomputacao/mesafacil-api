@@ -1,9 +1,13 @@
 package com.mesafacil.application.resource.reserva.restaurante;
 
 import com.mesafacil.application.util.UriUtil;
+import com.mesafacil.dominio.reserva.avaliacao.entity.AvaliacaoDto;
+import com.mesafacil.dominio.reserva.avaliacao.model.Avaliacao;
 import com.mesafacil.dominio.reserva.restaurante.entity.ReservaDto;
 import com.mesafacil.dominio.reserva.restaurante.mapper.ReservaMapper;
+import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Reserva;
+import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +31,7 @@ public class ReservaResource {
 
     @GetMapping
     @Operation(summary = "Buscar as reservas registrados.", method = "GET")
-    public Page<ReservaDto> consultarTodos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+    public Page<ReservaDto> consultarTodos(@PageableDefault(size = 10, sort = {"nomeCliente"}) Pageable paginacao) {
         return reservaService.consultar(paginacao).map(reservaMapper::entityToDto);
     }
 
@@ -39,5 +43,19 @@ public class ReservaResource {
         reservaService.cadastrarReserva(reserva);
         return ResponseEntity.created(UriUtil.createUriWithId(reserva.getIdReserva()))
                 .body(reservaMapper.entityToDto(reserva));
+    }
+
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Confirma uma reserva pelo identificador.", method = "PUT")
+    public ResponseEntity<ReservaDto> atualizarReserva(@PathVariable("id") Long id, @RequestBody ReservaDto reservaDto) {
+        return reservaService.consultarPorId(id)
+                .map(reservaExistente -> {
+                    reservaExistente.setDescricao(reservaDto.descricao());
+                    Reserva reservaAtualizada = reservaService.atualizar(reservaExistente);
+
+                    return ResponseEntity.ok(reservaMapper.entityToDto(reservaAtualizada));
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

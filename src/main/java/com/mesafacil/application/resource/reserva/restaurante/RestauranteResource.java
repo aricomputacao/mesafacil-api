@@ -2,9 +2,11 @@ package com.mesafacil.application.resource.reserva.restaurante;
 
 
 import com.mesafacil.application.util.UriUtil;
+import com.mesafacil.dominio.reserva.avaliacao.entity.AvaliacaoDto;
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
 import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
 import com.mesafacil.dominio.reserva.restaurante.entity.RestauranteDto;
+import com.mesafacil.dominio.reserva.restaurante.enumeration.TipoDeCulinaria;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.MesaMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.RestauranteMapper;
@@ -23,6 +25,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reserva/restaurante")
@@ -39,6 +45,23 @@ public class RestauranteResource {
     @Operation(summary = "Buscar os restaurantes registrados.", method = "GET")
     public Page<RestauranteDto> consultarTodos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return restauranteService.consultar(paginacao).map(restauranteMapper::entityToDto);
+    }
+
+    @GetMapping("/busca-por-tipo")
+    @Operation(summary = "Busca um restaurante pelo tipo de cozinha.", method = "GET")
+    public ResponseEntity<List<RestauranteDto>> consultarRestaurante(@RequestParam(required = true) TipoDeCulinaria tiposDeCulinaria) {
+        List<Restaurante> restaurantes = restauranteService.consultarPorTipoCulinaria(tiposDeCulinaria)
+                .orElse(Collections.emptyList());
+
+        if (restaurantes.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<RestauranteDto> restauranteDtos = restaurantes.stream()
+                .map(restauranteMapper::entityToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(restauranteDtos);
     }
 
     @PostMapping

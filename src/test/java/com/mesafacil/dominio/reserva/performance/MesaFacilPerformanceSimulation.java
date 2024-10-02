@@ -1,4 +1,4 @@
-package com.mesafacil.performance;
+package com.mesafacil.dominio.reserva.performance;
 
 import java.time.Duration;
 
