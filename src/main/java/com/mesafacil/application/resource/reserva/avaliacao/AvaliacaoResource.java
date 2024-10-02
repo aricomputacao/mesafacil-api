@@ -6,6 +6,7 @@ import com.mesafacil.dominio.reserva.avaliacao.mapper.AvaliacaoMapper;
 import com.mesafacil.dominio.reserva.avaliacao.model.Avaliacao;
 import com.mesafacil.dominio.reserva.avaliacao.service.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class AvaliacaoResource {
 
     @GetMapping
     @Operation(summary = "Buscar as avaliações registradas.", method = "GET")
-    public Page<AvaliacaoDto> consultarTodos(@PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
+    public Page<AvaliacaoDto> consultarTodos( @Parameter(hidden = true)  @PageableDefault(size = 10, sort = {"id"}) Pageable paginacao) {
         return avaliacaoService.consultar(paginacao).map(avaliacaoMapper::entityToDto);
     }
 

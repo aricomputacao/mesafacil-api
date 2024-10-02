@@ -15,6 +15,7 @@ import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.service.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class RestauranteResource {
 
     @GetMapping
     @Operation(summary = "Buscar os restaurantes registrados.", method = "GET")
-    public Page<RestauranteDto> consultarTodos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+    public Page<RestauranteDto> consultarTodos(@Parameter(hidden = true)  @PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return restauranteService.consultar(paginacao).map(restauranteMapper::entityToDto);
     }
 
