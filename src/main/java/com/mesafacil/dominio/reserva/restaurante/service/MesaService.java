@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = {"ReservaCache"})
+@CacheConfig(cacheNames = {"mesaCache"})
 public class MesaService {
     private final MesaRepository mesaRepository;
 
