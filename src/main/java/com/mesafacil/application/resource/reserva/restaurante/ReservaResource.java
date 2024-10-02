@@ -10,6 +10,7 @@ import com.mesafacil.dominio.reserva.restaurante.model.Reserva;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class ReservaResource {
 
     @GetMapping
     @Operation(summary = "Buscar as reservas registrados.", method = "GET")
-    public Page<ReservaDto> consultarTodos(@PageableDefault(size = 10, sort = {"nomeCliente"}) Pageable paginacao) {
+    public Page<ReservaDto> consultarTodos(@Parameter(hidden = true)  @PageableDefault(size = 10, sort = {"nomeCliente"}) Pageable paginacao) {
         return reservaService.consultar(paginacao).map(reservaMapper::entityToDto);
     }
 

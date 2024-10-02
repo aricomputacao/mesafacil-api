@@ -7,6 +7,7 @@ import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.service.MesaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class MesaResource {
 
     @GetMapping
     @Operation(summary = "Buscar as mesas registrados.", method = "GET")
-    public Page<MesaDto> consultarTodos(@PageableDefault(size = 10, sort = {"numeroMesa"}) Pageable paginacao) {
+    public Page<MesaDto> consultarTodos(@Parameter(hidden = true)   @PageableDefault(size = 10, sort = {"numeroMesa"}) Pageable paginacao) {
         return mesaService.consultar(paginacao).map(mesaMapper::entityToDto);
     }
 
